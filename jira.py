@@ -237,7 +237,7 @@ class Jira:
         sprints = []
         for s in data:
             sprint = {"id": s.id, "name": s.name, "state": s.state,
-                      "startDate": s.startDate, "endDate": s.endDate}
+                      "start_date": s.startDate, "end_date": s.endDate}
             sprints.append(sprint)
 
         return sprints
