@@ -190,6 +190,19 @@ class Jira:
 
         self.auth_jira.transition_issue(issue=issue_key, transition=transition)
 
+    def create_issue_link(
+        self, issue_link_type: str, inward_issue_key: str, outward_issue_key: str
+    ) -> None:
+        """
+        create issue link to the specified Jira issue.
+        """
+
+        self.auth_jira.create_issue_link(
+            type=issue_link_type,
+            inwardIssue=inward_issue_key,
+            outwardIssue=outward_issue_key,
+        )
+
     def add_issues_to_sprint(self, sprint_id: int, issue_keys: list[str]) -> None:
         """
         Adds the specified issues to the specified Jira sprint.
@@ -212,7 +225,9 @@ class Jira:
         :rtype: int
         """
 
-        board_id = self.auth_jira.boards(projectKeyOrID=product_id)[0].id
+        board_id = sorted(
+            [i.id for i in self.auth_jira.boards(projectKeyOrID=product_id)]
+        )[0]
         return board_id
 
     def get_sprints(self, board_id: int, state: str) -> list[dict]:
